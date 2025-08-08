@@ -37,11 +37,11 @@ const createTables = () => {
             doctor_id integer,
             patient_id integer,
             appointment_time text not null,
-            foreign key (doctor_id) references doctor(d_id),
-            foreign key (patient_id) references patient(p_id),
             medicines_prescribed text,
             medical_bill text,
-            fee integer not null
+            fee integer not null,
+            foreign key (doctor_id) references doctor(d_id),
+            foreign key (patient_id) references patient(p_id)
             )`);
         
             console.log('Tables are ready');
