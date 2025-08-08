@@ -7,6 +7,7 @@ import './index.css'
 
 import Doctors from './pages/Doctors.jsx';
 import Homepage from './pages/Homepage.jsx';
+import Patients from './pages/Patients.jsx';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,11 @@ const router = createBrowserRouter([
   {
     path:'/doctors',
     element: <Doctors />
+  }
+  ,
+  {
+    path:'/patients',
+    element: <Patients />
   }
 ])
 

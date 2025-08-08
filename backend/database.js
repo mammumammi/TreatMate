@@ -10,6 +10,8 @@ const db = new sqlite3.Database('./scheduler.db', (err) => {
 
 const createTables = () => {
     db.serialize( () => {
+
+        db.run(`Drop table if exists patient`);
        
 
         db.run(`Create table if not exists patient (
@@ -18,8 +20,8 @@ const createTables = () => {
             gender text,
             medical_reports text,
             DOB text not null,
-            Disease text not null,
-            severity text not null,
+            disease text ,
+            severity text ,
             medicines_in_use text
             )`);
 
