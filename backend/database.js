@@ -19,6 +19,7 @@ const createTables = () => {
             medical_reports text,
             DOB text not null,
             disease text ,
+            password text not null,
             severity text ,
             medicines_in_use text
             )`);
@@ -27,6 +28,7 @@ const createTables = () => {
                 d_id integer primary key autoincrement,
                 name text not null,
                 expertise text not null,
+                password text not null,
                 YOE integer not null,
                 gender text,
                 patients_assigned text default '[]'

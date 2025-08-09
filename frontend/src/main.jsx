@@ -10,11 +10,12 @@ import Homepage from './pages/Homepage.jsx';
 import Patients from './pages/Patients.jsx';
 import Appointments from './pages/Appointments.jsx';
 import PatientPortal from './pages/PatientPortal.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 
 const router = createBrowserRouter([
   {
     path:'/',
-    element:<Homepage />
+    element:<LoginPage />
   }
   ,
   {

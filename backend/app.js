@@ -7,8 +7,10 @@ var logger = require('morgan');
 var doctorsRouter = require('./routes/doctors');
 var patientsRouter = require('./routes/patients');
 var appointmentsRouter = require('./routes/appointments');
+var authRouter = require('./routes/auth');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const { auth } = require('firebase-admin');
 
 var app = express();
 
@@ -27,6 +29,7 @@ app.use('/users', usersRouter);
 app.use('/api/doctors',doctorsRouter);
 app.use('/api/patients',patientsRouter);
 app.use('/api/appointments',appointmentsRouter);
+app.use('/api/auth',authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
