@@ -48,4 +48,31 @@ router.post('/', (req,res) => {
     });
 });
 
+router.patch('/:id', (req,res) => {
+    const appointmentId = req.params.id;
+    const { new_appointment_time} = req.body;
+
+    if (!new_appointment_time){
+        return res.status(400).json({"Error" : "new appointment time is required"});
+    }
+
+    const sql = `Update appointment set appointment_time = ? where a_id = ?`;
+    const params = [new_appointment_time,appointmentId];
+
+    db.run(sql,params, function(err,result) {
+        if (err){
+            return res.status(400).json({"Error": err.message});
+        }
+        if (this.changes === 0 ) {
+            return res.status(404).json({"error": `Appointment with id ${appointmentId} not found`});
+        }
+
+        res.json({
+            message: "success",
+            data: { id:appointmentId,new_time: new_appointment_time},
+            changes:this.changes
+        });
+    });
+});
+
 module.exports = router;

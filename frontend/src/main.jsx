@@ -9,6 +9,7 @@ import Doctors from './pages/Doctors.jsx';
 import Homepage from './pages/Homepage.jsx';
 import Patients from './pages/Patients.jsx';
 import Appointments from './pages/Appointments.jsx';
+import PatientPortal from './pages/PatientPortal.jsx';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path:'/appointments',
     element: <Appointments />
+  },
+  {
+    path: "/portal/:patientId",
+    element: <PatientPortal/>
   }
 ])
 
