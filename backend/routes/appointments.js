@@ -75,4 +75,21 @@ router.patch('/:id', (req,res) => {
     });
 });
 
+router.delete('/:id', (req, res) => {
+    const appointmentId = req.params.id;
+
+    // Instead of deleting, we update the status. This preserves the record.
+    const sql = `UPDATE appointment SET status = 'cancelled' WHERE a_id = ?`;
+
+    db.run(sql, [appointmentId], function(err) {
+        if (err) {
+            return res.status(400).json({ "error": err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ "error": `Appointment with id ${appointmentId} not found` });
+        }
+        res.json({ message: "Appointment cancelled successfully", changes: this.changes });
+    });
+});
+
 module.exports = router;

@@ -3,7 +3,8 @@ const router = express.Router();
 const db = require('../database.js');
 
 router.post('/login/doctor',(req,res) => {
-    const [name, password] = req.body;
+    const {name, password} = req.body;
+    console.log("Request body:", req.body);
     const sql = "select * from doctors where name = ? and password = ?";
     
     db.get(sql,[name,password],(err,row) => {
@@ -18,7 +19,7 @@ router.post('/login/doctor',(req,res) => {
 });
 
 router.post('/login/patient', (req,res) => {
-    const [name,password] = req.body;
+    const {name,password} = req.body;
     const sql = "select * from patients where name = ? and password = ?";
 
     db.get(sql,[name,password], (err,rows) => {
