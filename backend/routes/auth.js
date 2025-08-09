@@ -5,12 +5,12 @@ const db = require('../database.js');
 router.post('/login/doctor',(req,res) => {
     const {name, password} = req.body;
     console.log("Request body:", req.body);
-    const sql = "select * from doctors where name = ? and password = ?";
+    const sql = "select * from doctor where name = ? and password = ?";
     
     db.get(sql,[name,password],(err,row) => {
         if (err) return res.status(400).json({"Error": err.message});
         if (row) {
-            return res.status(500).json({"message": "success",user: row});
+            return res.status(500).json({"status": "true","message": "success",user: row});
         }
         else {
             return res.status(401).json({"error": "invalid name or password"});

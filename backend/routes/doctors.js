@@ -16,7 +16,7 @@ router.get('/', (req,res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/auth/login/doctor/', (req, res) => {
     // FIX #1: Add 'password' to the list of expected data
     const { name, expertise, YOE, gender, password } = req.body;
 
