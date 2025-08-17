@@ -37,7 +37,7 @@ router.get('/', (req,res) => {
         if (err){
             return res.status(500).json({"Error": "error in calling the doctors table"});
         }
-        res.status(200).json({"status": true,"data": rows});
+        res.status(200).json({"status": true,"doctors": rows});
     });
 });
 
