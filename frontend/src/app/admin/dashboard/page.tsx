@@ -1,23 +1,99 @@
 'use client';
 
 import { ThemeSwitcher } from '@/app/components/ThemeSwitcher';
-import { div } from 'framer-motion/client';
-import React from 'react'
+import api from '@/services/api';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+
+interface Doctor{
+  d_id: number;
+  name: string;
+  YOE: number;
+  expertise: string;
+}
+
+interface Patient{
+  p_id: number;
+  name: string;
+  DOB: string;
+  gender: string;
+  phone: number;
+}
 
 
 
 
 type Props = {}
 
-const adminDashboard = (props: Props) => {
+const AdminDashboard = (props: Props) => {
+
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [patients, setPatients] = useState<Patient[]>([]);
+
+  const [ newDoctor,setNewDoctor] = useState({ name: '',expertise: '',YOE: '',password: ''});
+  const [ newPatient,setNewPatient] = useState({ name: '',password: '',phone: '',DOB: ''});
+
+  const fetchData = async() => 
+  {
+    try {
+      const [doctorsRes,patientsRes] = await Promise.all([
+        api.get('/doctors'),
+        api.get('/patients')
+      ]);
+
+      console.log(doctorsRes.data);
+      setDoctors(doctorsRes.data.doctors || []);
+      setPatients(patientsRes.data.patients || []);
+
+
+    }
+    catch (error){
+      console.error("Failed to fetch data:",error);
+    }
+  };
+
+  useEffect( ()=>{
+    fetchData()
+  },[]);
+
   return (
     <main className='  h-full min-h-screen'>
       <ThemeSwitcher/>
-      <section>
-        <h1 className='m-10 text-3xl'>Admin Dashboard</h1>
+      <section className='p-10'>
+        <h1 className='m-4 text-3xl'>Admin Dashboard</h1>
+        <p>Number of doctors in the platform:{doctors.length}</p>
+        <p>NUmber of patients in the platform:{patients.length}</p>
+      </section>
+      <section className='p-10'>
+        <h1 className='text-2xl m-5'>Doctors</h1>
+        <p>Doctors available</p>
+        <div>
+          {doctors.map(doc=> 
+            <div key={doc.d_id} className='flex flex-row space-x-5'><p>{doc.name}</p>
+            <p>{doc.d_id}</p>
+            <p>{doc.YOE}</p>
+            <p>{doc.expertise}</p>
+            </div>
+          )}
+        </div>
+      </section>
+      <section className='p-10'>
+        <h1 className='text-2xl m-5'>Patients</h1>
+        <p>Patients Available</p>
+        <div>
+          {patients.map(pat => 
+            <div className='flex flex-row space-x-5' key={pat.p_id}>
+              <p>{pat.name}</p>
+              <p>{pat.DOB}</p>
+              <p>{pat.p_id}</p>
+              <p>{pat.gender}</p>
+              <p>{pat.phone}</p>
+            </div>
+          )}
+        </div>
       </section>
     </main>
   )
 }
 
-export default adminDashboard
+export default AdminDashboard
