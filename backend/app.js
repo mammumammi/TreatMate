@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var doctorRouter = require('./routes/doctors');
 var patientRouter = require('./routes/patients');
+var appointmentRouter = require('./routes/appointments');
 
 var app = express();
 
@@ -22,5 +23,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/doctors',doctorRouter);
 app.use('/api/patients',patientRouter);
+app.use('/api/appointments',appointmentRouter);
 
 module.exports = app;

@@ -20,6 +20,14 @@ interface Patient{
   phone: number;
 }
 
+interface Appointment{
+  a_id: number;
+  doctor_id: number;
+  patient_id: number;
+  app_time: string;
+  status: string;
+}
+
 
 
 
@@ -29,21 +37,24 @@ const AdminDashboard = (props: Props) => {
 
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [patients, setPatients] = useState<Patient[]>([]);
-
+  const [appointments,setAppointments] = useState<Appointment[]>([]);
   const [ newDoctor,setNewDoctor] = useState({ name: '',expertise: '',YOE: '',password: ''});
   const [ newPatient,setNewPatient] = useState({ name: '',password: '',phone: '',DOB: ''});
+  const [newAppointment,setNewAppointment] = useState({a_id: '',doctor_id: '',patient_id: '',app_time: '',status: ''})
 
   const fetchData = async() => 
   {
     try {
-      const [doctorsRes,patientsRes] = await Promise.all([
+      const [doctorsRes,patientsRes,appointmentRes] = await Promise.all([
         api.get('/doctors'),
-        api.get('/patients')
+        api.get('/patients'),
+        api.get('/appointments')
       ]);
 
       console.log(doctorsRes.data);
       setDoctors(doctorsRes.data.doctors || []);
       setPatients(patientsRes.data.patients || []);
+      setAppointments(appointmentRes.data.data || []);
 
 
     }
@@ -88,6 +99,21 @@ const AdminDashboard = (props: Props) => {
               <p>{pat.p_id}</p>
               <p>{pat.gender}</p>
               <p>{pat.phone}</p>
+            </div>
+          )}
+        </div>
+      </section>
+      <section className='p-10'>
+        <h1 className='m-5 text-2xl'>Appointments</h1>
+        <p>Appointments available</p>
+        <div>
+          {appointments.map( app => 
+            <div className='flex flex-row space-x-5'>
+              <p>{app.a_id}</p>
+              <p>{app.status}</p>
+              <p>{app.patient_id}</p>
+              <p>{app.doctor_id}</p>
+              <p>{app.app_time}</p>
             </div>
           )}
         </div>
