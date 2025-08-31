@@ -1,6 +1,8 @@
 'use client';
 
+import AddPatients from '@/app/components/AddPatients';
 import { ThemeSwitcher } from '@/app/components/ThemeSwitcher';
+import { AnimatedGridPattern } from '@/components/magicui/animated-grid-pattern';
 import api from '@/services/api';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
@@ -68,6 +70,8 @@ const AdminDashboard = (props: Props) => {
   },[]);
 
   return (
+    <>
+      <AnimatedGridPattern  duration={2} numSquares={5} className=' min-h-[150vh]' />
     <main className='  h-full min-h-screen'>
       <ThemeSwitcher/>
       <section className='p-10'>
@@ -102,6 +106,7 @@ const AdminDashboard = (props: Props) => {
             </div>
           )}
         </div>
+        <AddPatients onPatientAdded={fetchData}/>
       </section>
       <section className='p-10'>
         <h1 className='m-5 text-2xl'>Appointments</h1>
@@ -119,6 +124,7 @@ const AdminDashboard = (props: Props) => {
         </div>
       </section>
     </main>
+    </>
   )
 }
 
