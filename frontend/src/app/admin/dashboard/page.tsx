@@ -1,5 +1,6 @@
 'use client';
 
+import AddDoctors from '@/app/components/AddDoctors';
 import AddPatients from '@/app/components/AddPatients';
 import { ThemeSwitcher } from '@/app/components/ThemeSwitcher';
 import { AnimatedGridPattern } from '@/components/magicui/animated-grid-pattern';
@@ -91,6 +92,7 @@ const AdminDashboard = (props: Props) => {
             </div>
           )}
         </div>
+        <AddDoctors onDoctorsAdded={fetchData} />
       </section>
       <section className='p-10'>
         <h1 className='text-2xl m-5'>Patients</h1>
