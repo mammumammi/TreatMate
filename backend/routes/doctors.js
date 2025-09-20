@@ -5,40 +5,45 @@ const bcrypt = require('bcrypt');
 
 const saltRounds = 10;
 
-router.post('/', (req,res) => {
-    const { name,password,expertise,YOE,gender} = req.body;
+router.post('/', async (req, res) => {
+    const { name, password, expertise, YOE, gender } = req.body;
 
-    if (!name || !password || !expertise || !YOE){
-        return res.status(400).json({"Error": "Missing required fields"});
+    if (!name || !password || !expertise || !YOE) {
+        return res.status(400).json({ "Error": "Missing required fields" });
     }
 
-    bcrypt.hash(password,saltRounds, (err,hash) => {
-        if (err) {
-            return res.status(500).json({"Error": "Error hashing password"});
-        }
+    try {
+        const hash = await bcrypt.hash(password, saltRounds);
+        
+        const sql = `INSERT INTO doctor (name, password, expertise, YOE, gender) VALUES ($1, $2, $3, $4, $5) RETURNING d_id, name`;
+        const params = [name, hash, expertise, YOE, gender];
 
-        const sql = `insert into doctor (name,password,expertise,YOE,gender) values (?,?,?,?,?)`;
-
-        const params = [name,hash,expertise,YOE,gender];
-
-        db.run(sql,params, function(err,result) {
-            if (err) {
-                return res.status(400).json({"Error": "error storing to the doctor table"});
-            }
-            res.status(201).json({"status": true,"message": "success","data": {id: this.lastID,name}});
+        const result = await db.query(sql, params);
+        
+        res.status(201).json({
+            "status": true,
+            "message": "success",
+            "data": { id: result.rows[0].d_id, name: result.rows[0].name }
         });
-    });
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(400).json({ "Error": "error storing to the doctor table" });
+    }
 });
 
-router.get('/', (req,res) => {
-    const sql = `select d_id,name,expertise,YOE,gender from doctor`;
-
-    db.all(sql,[],(err,rows) => {
-        if (err){
-            return res.status(500).json({"Error": "error in calling the doctors table"});
-        }
-        res.status(200).json({"status": true,"doctors": rows});
-    });
+router.get('/', async (req, res) => {
+    try {
+        const sql = `SELECT d_id, name, expertise, YOE, gender FROM doctor`;
+        const result = await db.query(sql);
+        
+        res.status(200).json({
+            "status": true,
+            "doctors": result.rows
+        });
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ "Error": "error in calling the doctors table" });
+    }
 });
 
 module.exports = router;

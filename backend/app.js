@@ -32,4 +32,13 @@ app.use('/api/doctors',doctorRouter);
 app.use('/api/patients',patientRouter);
 app.use('/api/appointments',appointmentRouter);
 
+   // Health check endpoint for deployment platforms
+   app.get('/health', (req, res) => {
+    res.status(200).json({ 
+      status: 'OK', 
+      timestamp: new Date().toISOString(),
+      service: 'TreatMate Backend'
+    });
+  });
+
 module.exports = app;
