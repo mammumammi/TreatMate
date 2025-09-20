@@ -4,6 +4,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
+const PORT = process.env.PORT || 3000;
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var doctorRouter = require('./routes/doctors');
@@ -12,7 +14,12 @@ var appointmentRouter = require('./routes/appointments');
 
 var app = express();
 
-app.use(cors({ origin:'http://localhost:3001'}));
+const corsOptions = {
+    origin: process.env.FRONTEND_URL || 'http://localhost:3001'
+};
+  
+app.use(cors(corsOptions));
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
