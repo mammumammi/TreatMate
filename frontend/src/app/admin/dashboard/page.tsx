@@ -5,7 +5,6 @@ import AddPatients from '@/app/components/AddPatients';
 import { ThemeSwitcher } from '@/app/components/ThemeSwitcher';
 import { AnimatedGridPattern } from '@/components/magicui/animated-grid-pattern';
 import api from '@/services/api';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
 interface Doctor{
@@ -31,22 +30,14 @@ interface Appointment{
   status: string;
 }
 
+type Props = Record<string, never>;
 
-
-
-type Props = {}
-
-const AdminDashboard = (props: Props) => {
-
+const AdminDashboard = () => {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [patients, setPatients] = useState<Patient[]>([]);
   const [appointments,setAppointments] = useState<Appointment[]>([]);
-  const [ newDoctor,setNewDoctor] = useState({ name: '',expertise: '',YOE: '',password: ''});
-  const [ newPatient,setNewPatient] = useState({ name: '',password: '',phone: '',DOB: ''});
-  const [newAppointment,setNewAppointment] = useState({a_id: '',doctor_id: '',patient_id: '',app_time: '',status: ''})
 
-  const fetchData = async() => 
-  {
+  const fetchData = async() => {
     try {
       const [doctorsRes,patientsRes,appointmentRes] = await Promise.all([
         api.get('/doctors'),
@@ -58,8 +49,6 @@ const AdminDashboard = (props: Props) => {
       setDoctors(doctorsRes.data.doctors || []);
       setPatients(patientsRes.data.patients || []);
       setAppointments(appointmentRes.data.data || []);
-
-
     }
     catch (error){
       console.error("Failed to fetch data:",error);
@@ -115,7 +104,7 @@ const AdminDashboard = (props: Props) => {
         <p>Appointments available</p>
         <div>
           {appointments.map( app => 
-            <div className='flex flex-row space-x-5'>
+            <div key={app.a_id} className='flex flex-row space-x-5'>
               <p>{app.a_id}</p>
               <p>{app.status}</p>
               <p>{app.patient_id}</p>

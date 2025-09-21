@@ -16,7 +16,7 @@ const AddDoctors = ({onDoctorsAdded}: AddDoctorsProps) => {
         gender: 'Male'
     });
 
-    const [Error,setError] = useState('');
+    const [error,setError] = useState('');
     const [isSubmitting,setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e:FormEvent) => {
@@ -37,6 +37,7 @@ const AddDoctors = ({onDoctorsAdded}: AddDoctorsProps) => {
         YOE: '',
         gender: 'Male'
                 });
+                onDoctorsAdded();
             }
             else {
                 const result = response.data;

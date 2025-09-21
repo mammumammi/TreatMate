@@ -1,10 +1,11 @@
 "use client";
 import { useTheme } from 'next-themes';
 import React, { useEffect, useState } from 'react'
-import ThemeIcon from  '/public/theme.svg'
-type Props = {}
+import Image from 'next/image'
 
-export const ThemeSwitcher = (props: Props) => {
+type Props = Record<string, never>;
+
+export const ThemeSwitcher = () => {
     const [mounted, setMounted] = useState(false);
     const {theme,setTheme} = useTheme();
 
@@ -16,11 +17,16 @@ export const ThemeSwitcher = (props: Props) => {
         return null;
     }
   return (
-
     <button onClick={()=> {
         setTheme(theme === "light" ? "dark" : "light")
     }} className='absolute top-[3vh] left-[94vw]'>
-        <img src='/theme.svg' className={`h-[50px] w-[50px] ${theme === 'light' ? 'text-black' : 'text-white'}`} alt="" />
+        <Image 
+          src='/theme.svg' 
+          width={50} 
+          height={50} 
+          className={`${theme === 'light' ? 'text-black' : 'text-white'}`} 
+          alt="Theme toggle" 
+        />
     </button>
   )
 }
